@@ -1,4 +1,4 @@
-package com.lstrong.helper;
+package com.lstrong.algorithm.helper;
 
 import java.util.Random;
 
