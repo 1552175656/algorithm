@@ -1,7 +1,10 @@
-package com.lstrong.helper;
+package com.lstrong.algorithm.helper;
 
 import java.util.Random;
 
+/**
+ * @author asus
+ */
 public class TestSortHelper {
 
     private static Random random = new Random();

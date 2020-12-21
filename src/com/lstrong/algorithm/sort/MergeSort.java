@@ -1,8 +1,11 @@
-package com.lstrong.sort;
+package com.lstrong.algorithm.sort;
 
 
 import java.util.Arrays;
 
+/**
+ * @author asus
+ */
 public class MergeSort {
 
     private MergeSort() {

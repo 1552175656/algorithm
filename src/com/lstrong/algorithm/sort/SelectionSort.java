@@ -1,5 +1,8 @@
-package com.lstrong.sort;
+package com.lstrong.algorithm.sort;
 
+/**
+ * @author asus
+ */
 public class SelectionSort {
 
     private SelectionSort() {
