@@ -1,7 +1,7 @@
 package com.lstrong;
 
-import com.lstrong.helper.TestSortHelper;
-import com.lstrong.sort.QuickSort;
+import com.lstrong.algorithm.helper.TestSortHelper;
+import com.lstrong.algorithm.sort.QuickSort;
 
 public class Main {
 
