@@ -132,6 +132,21 @@ public class LinkedList<E> {
         return deletedNode.e;
     }
 
+    public E removeElement(E e) {
+        Node cur = dummyHead;
+        Node deletedNode = null;
+        while (cur != null) {
+            if (cur.e.equals(e)) {
+                deletedNode = cur.next;
+                cur.next = deletedNode.next;
+                deletedNode.next = null;
+            }
+            cur = cur.next;
+        }
+        assert deletedNode != null;
+        return deletedNode.e;
+    }
+
     public E removeFirst() {
         return remove(0);
     }
