@@ -47,7 +47,9 @@ public class QuickSort {
                 j--;
             }
 
-            if(i >= j) break;
+            if(i >= j) {
+                break;
+            }
             swap(arr, i, j);
             i++;
             j--;

@@ -1,9 +1,8 @@
-
 package com.lstrong.algorithm.datastructure;
 
 
-
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 一些声明信息
@@ -112,11 +111,12 @@ public class BST<E extends Comparable<E>> {
             if (cur.right != null) {
                 nodeStack.push(cur.right);
             }
+
             if (cur.left != null) {
                 nodeStack.push(cur.left);
             }
-
         }
+
     }
 
     public void inOrder() {
@@ -137,11 +137,11 @@ public class BST<E extends Comparable<E>> {
         if (node == null) {
             return;
         }
-
         Stack<Node> nodeStack = new Stack<>();
         Node cur = node;
-        while (cur != null || !nodeStack.isEmpty()){
-            while (cur != null){
+
+        while (cur != null || !nodeStack.isEmpty()) {
+            while (cur != null) {
                 nodeStack.push(cur);
                 cur = cur.left;
             }
@@ -149,6 +149,7 @@ public class BST<E extends Comparable<E>> {
             System.out.println(cur.e);
             cur = cur.right;
         }
+
     }
 
     public void postOrder() {
@@ -165,47 +166,144 @@ public class BST<E extends Comparable<E>> {
         System.out.println(node.e);
     }
 
-    public E minimum(){
-        if(size == 0){
+    private void postOrderNR(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        Stack<Node> nodeStack = new Stack<>();
+        Node cur = node;
+        Node prev = null;
+
+        while (cur != null || !nodeStack.isEmpty()) {
+            while (cur != null) {
+                nodeStack.push(cur);
+                cur = cur.left;
+            }
+            cur = nodeStack.pop();
+            if (cur.right == null || cur.right == prev) {
+                System.out.println(cur.e);
+                prev = cur;
+                cur = null;
+            } else {
+                nodeStack.push(cur);
+                cur = cur.right;
+            }
+        }
+    }
+
+    public E minimum() {
+        if (size == 0) {
             throw new IllegalArgumentException("BST is empty!");
         }
         return minimum(root).e;
     }
 
     private Node minimum(Node node) {
-        if(node.left == null){
+        if (node.left == null) {
             return node;
         }
+
         return minimum(node.left);
     }
 
-    public E maximum(){
-        if(size == 0){
+    public E maximum() {
+        if (size == 0) {
             throw new IllegalArgumentException("BST is empty!");
         }
         return maximum(root).e;
     }
 
     private Node maximum(Node node) {
-        if(node.right == null){
+        if (node.right == null) {
             return node;
         }
-        return maximum(node.right);
+
+        return minimum(node.right);
     }
 
     public E removeMin() {
         E ret = minimum();
-        removeMin(root);
+        root = removeMin(root);
         return ret;
     }
 
-    private Node removeMin(Node node){
+    private Node removeMin(Node node) {
 
-        if(node.left == null){
-
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
         }
 
+        node.left = removeMin(node.left);
         return node;
+    }
+
+    public E removeMax() {
+        E ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    private Node removeMax(Node node) {
+
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    private E successor(Node root) {
+        root = root.right;
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root.e;
+    }
+
+
+    private E predecessor(Node root) {
+        root = root.left;
+        while (root.right != null) {
+            root = root.right;
+        }
+        return root.e;
+    }
+
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+
+    private Node remove(Node node, E e) {
+
+        if (node == null) {
+            return null;
+        }
+
+        if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+        } else if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+        } else {
+            if (node.left == null && node.right == null) {
+                return null;
+            } else if (node.right != null) {
+                node.e = successor(node);
+                node.right = remove(node.right, node.e);
+            } else {
+                node.e = predecessor(node);
+                node.left = remove(node.left, node.e);
+            }
+        }
+        return root;
     }
 
 }
