@@ -16,8 +16,9 @@ public class MergeSort {
 
 
     public static <E extends Comparable<E>> void sort(E[] arr, int left, int right, E[] temp) {
-        if (left > right)
+        if (left > right) {
             return;
+        }
 
         int mid = left + (right - left) / 2;
         sort(arr, left, mid - 1, temp);

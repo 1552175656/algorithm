@@ -1,5 +1,8 @@
 package com.lstrong.algorithm.sort;
 
+/**
+ * @author Administrator
+ */
 public class SelectionSort {
 
     private SelectionSort() {

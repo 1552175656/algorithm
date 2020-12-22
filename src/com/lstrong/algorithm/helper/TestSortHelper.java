@@ -2,6 +2,9 @@ package com.lstrong.algorithm.helper;
 
 import java.util.Random;
 
+/**
+ * @author Administrator
+ */
 public class TestSortHelper {
 
     private static Random random = new Random();

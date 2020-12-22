@@ -1,5 +1,8 @@
 package com.lstrong.algorithm.datastructure;
 
+
+import java.util.Stack;
+
 /**
  * 一些声明信息
  * Description: <br/>
@@ -92,6 +95,29 @@ public class BST<E extends Comparable<E>> {
         preOrder(node.right);
     }
 
+    private void preOrderNR(Node node){
+        if(node == null){
+            return;
+        }
+
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.push(node);
+
+        while (!nodeStack.isEmpty()){
+            Node cur = nodeStack.pop();
+            System.out.println(cur.e);
+
+            if(cur.right != null){
+                nodeStack.push(cur.right);
+            }
+
+            if(cur.left != null){
+                nodeStack.push(cur.left);
+            }
+        }
+
+    }
+
     public void inOrder(){
         inOrder(root);
     }
@@ -104,6 +130,25 @@ public class BST<E extends Comparable<E>> {
         preOrder(node.left);
         System.out.println(node.e);
         preOrder(node.right);
+    }
+
+    private void inOrderNR(Node node){
+        if(node == null){
+            return;
+        }
+        Stack<Node> nodeStack = new Stack<>();
+        Node cur = node;
+
+        while (cur != null || !nodeStack.isEmpty()){
+            while (cur != null){
+                nodeStack.push(cur);
+                cur = cur.left;
+            }
+            cur = nodeStack.pop();
+            System.out.println(cur.e);
+            cur = cur.right;
+        }
+
     }
 
     public void postOrder(){
