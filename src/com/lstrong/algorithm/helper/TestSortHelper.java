@@ -3,7 +3,7 @@ package com.lstrong.algorithm.helper;
 import java.util.Random;
 
 /**
- * @author Administrator
+ * @author asus
  */
 public class TestSortHelper {
 

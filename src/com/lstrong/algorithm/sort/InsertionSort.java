@@ -1,7 +1,7 @@
 package com.lstrong.algorithm.sort;
 
 /**
- * @author Administrator
+ * @author asus
  */
 public class InsertionSort {
 

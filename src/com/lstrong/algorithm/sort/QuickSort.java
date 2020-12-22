@@ -2,6 +2,9 @@ package com.lstrong.algorithm.sort;
 
 import java.util.Random;
 
+/**
+ * @author asus
+ */
 public class QuickSort {
 
     private QuickSort() {
