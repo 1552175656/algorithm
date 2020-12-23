@@ -1,5 +1,8 @@
 package com.lstrong.algorithm.datastructure;
 
+/**
+ * @author asus
+ */
 public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
     private class Node {
