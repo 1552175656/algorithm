@@ -89,20 +89,31 @@ public class Array<E> {
         return -1;
     }
 
-    public E remove(int index){
-        if(index < 0 || index >= size){
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Remove failed. Index is illegal");
         }
 
         E ret = data[index];
-        for (int i = index + 1; i < size; i++) {
-            data[i - 1] = data[i];
+        if (size - index + 1 >= 0) {
+            System.arraycopy(data, index + 1, data, index + 1 - 1, size - index + 1);
         }
         size--;
         return ret;
     }
 
-    public E removeFirst(){
+    public E removeFirst() {
         return remove(0);
+    }
+
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    public void removeElement(E e) {
+        int index = find(e);
+        if (index != -1) {
+            remove(index);
+        }
     }
 }
