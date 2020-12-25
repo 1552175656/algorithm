@@ -36,13 +36,15 @@ public class Array<E> {
 
     public void add(int index, E e) {
 
-        if (size == data.length) {
-            throw new IllegalArgumentException("Add failed. Array is full.");
-        }
 
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed. Require index >= 0");
         }
+
+        if (size == data.length) {
+            resize(2 * data.length);
+        }
+
 
         System.arraycopy(data, index, data, index + 1, size - index);
         data[index] = e;
@@ -62,6 +64,14 @@ public class Array<E> {
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         }
         return data[index];
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size - 1);
     }
 
     public void set(int index, E e) {
@@ -99,6 +109,9 @@ public class Array<E> {
             System.arraycopy(data, index + 1, data, index + 1 - 1, size - index + 1);
         }
         size--;
+        if (size == data.length / 2) {
+            resize(data.length / 2);
+        }
         return ret;
     }
 
@@ -115,5 +128,18 @@ public class Array<E> {
         if (index != -1) {
             remove(index);
         }
+    }
+
+    public void resize(int newCapacity) {
+
+        E[] newData = (E[]) new Object[newCapacity];
+
+        if (size >= 0) {
+            System.arraycopy(data, 0, newData, 0, size);
+        }
+
+        data = newData;
+
+
     }
 }
