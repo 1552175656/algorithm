@@ -5,7 +5,7 @@ package com.lstrong.algorithm.datastructure;
  */
 public class MaxHeap<E extends Comparable<E>> {
 
-    private final Array<E> data;
+    private Array<E> data;
 
     public MaxHeap(int capacity) {
         data = new Array<>(capacity);
@@ -13,6 +13,13 @@ public class MaxHeap<E extends Comparable<E>> {
 
     public MaxHeap() {
         data = new Array<>();
+    }
+
+    public MaxHeap(E[] arr) {
+        data = new Array<>(arr);
+        for (int i = parent(arr.length - 1); i >= 0; i--) {
+            siftDown(i);
+        }
     }
 
     public int size() {
@@ -77,11 +84,21 @@ public class MaxHeap<E extends Comparable<E>> {
                 j = rightChild(k);
             }
 
-            if(data.get(k).compareTo(data.get(j)) >= 0){
+            if (data.get(k).compareTo(data.get(j)) >= 0) {
                 break;
             }
             data.swap(k, j);
             k = j;
         }
     }
+
+    public E replace(E e) {
+
+        E ret = findMax();
+        data.set(0, e);
+        siftDown(0);
+        return ret;
+    }
+
+
 }
