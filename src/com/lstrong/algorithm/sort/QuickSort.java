@@ -47,7 +47,7 @@ public class QuickSort {
                 j--;
             }
 
-            if(i >= j) {
+            if (i >= j) {
                 break;
             }
             swap(arr, i, j);
@@ -58,6 +58,37 @@ public class QuickSort {
 
         return j;
     }
+
+    private static <E extends Comparable<E>> void sort3ways(E[] arr, int left, int right, Random random) {
+        if (left >= right) {
+            return;
+        }
+
+        int p = left + random.nextInt(right - left + 1);
+        swap(arr, p, left);
+
+        //arr[l + 1,lt] < v, arr[lt + 1, i - 1] == v, arr[gt, r] > v
+        int lt = left, i = left + 1, gt = right + 1;
+
+        while (i < gt) {
+
+            if (arr[i].compareTo(arr[left]) < 0) {
+                lt++;
+                swap(arr, i, lt);
+                i++;
+            } else if (arr[i].compareTo(arr[left]) > 0) {
+                gt--;
+                swap(arr, i, gt);
+            } else {
+                i++;
+            }
+        }
+        swap(arr, left, lt);
+        //arr[l,lt - 1] < v, arr[lt, gt - 1] == v, arr[gt, r] > v
+        sort3ways(arr, left, lt - 1, random);
+        sort3ways(arr, gt, right, random);
+    }
+
 
     private static <E extends Comparable<E>> void swap(E[] arr, int i, int j) {
         E temp = arr[i];

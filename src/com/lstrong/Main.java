@@ -3,6 +3,8 @@ package com.lstrong;
 import com.lstrong.algorithm.helper.TestSortHelper;
 import com.lstrong.algorithm.sort.QuickSort;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -12,7 +14,7 @@ public class Main {
         Integer[] arr = TestSortHelper.generateRandomIntArr(bound);
         long start = System.nanoTime();
 
-        QuickSort.sort(arr);
+        Arrays.sort(arr);
 
         long end = System.nanoTime();
 
