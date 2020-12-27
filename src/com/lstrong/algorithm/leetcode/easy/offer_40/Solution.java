@@ -1,6 +1,7 @@
 package com.lstrong.algorithm.leetcode.easy.offer_40;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
  * 一些声明信息
@@ -65,5 +66,28 @@ public class Solution {
         int tmp = nums[i];
         nums[i] = nums[j];
         nums[j] = tmp;
+    }
+
+    public int[] getLeastNumbers1(int[] arr, int k) {
+
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((v1, v2 ) -> (v2 - v1));
+
+        for (int i = 0; i < k; i++) {
+            priorityQueue.offer(arr[i]);
+        }
+
+        for (int i = k; i < arr.length; i++) {
+            if(!priorityQueue.isEmpty() && arr[i] < priorityQueue.peek()){
+                Integer poll = priorityQueue.poll();
+                System.out.println(poll);
+                priorityQueue.offer(arr[i]);
+            }
+        }
+
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = priorityQueue.poll();
+        }
+        return res;
     }
 }
