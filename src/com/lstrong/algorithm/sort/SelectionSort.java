@@ -16,7 +16,7 @@ public class SelectionSort {
 
             int minIndex = i;
             for (int j = i; j < arr.length; j++) {
-                if(arr[minIndex].compareTo(arr[i]) > 0){
+                if (arr[minIndex].compareTo(arr[i]) > 0) {
                     minIndex = j;
                 }
             }
