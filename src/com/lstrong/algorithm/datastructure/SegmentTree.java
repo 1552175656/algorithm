@@ -1,24 +1,9 @@
 package com.lstrong.algorithm.datastructure;
 
 /**
-<<<<<<< HEAD
- * @author Administrator
- */
-public class SegmentTree<E> {
-
-    private E[] tree;
-
-    private E[] data;
-
-    public SegmentTree(E[] arr){
-
-=======
- * 一些声明信息
- * Description: <br/>
- * date: 2020/12/29 22:14<br/>
+ * <<<<<<< HEAD
  *
- * @author asus<br />
- * @since JDK 1.8
+ * @author Administrator
  */
 public class SegmentTree<E> {
 
@@ -28,28 +13,14 @@ public class SegmentTree<E> {
 
     public SegmentTree(E[] arr, Merger<E> merger) {
         this.merger = merger;
->>>>>>> d720cd23f2aa9c59d6aa55f29c47d4d04aeb58b1
+
         data = (E[]) new Object[arr.length];
 
         System.arraycopy(arr, 0, data, 0, arr.length);
 
         tree = (E[]) new Object[4 * arr.length];
 
-<<<<<<< HEAD
-    }
 
-    public int getSize(){
-        return data.length;
-    }
-
-    public E get(int index){
-
-        if(index < 0 || index >= data.length){
-            throw new IllegalArgumentException("Index is illegal");
-        }
-
-        return data[index];
-=======
         buildSegmentTree(0, 0, data.length - 1);
     }
 
@@ -78,10 +49,16 @@ public class SegmentTree<E> {
     public E get(int index) {
 
         if (index < 0 || index >= data.length) {
-            throw new IllegalArgumentException("Index is illegal.");
+            throw new IllegalArgumentException("Index is illegal");
         }
+
         return data[index];
+
+
     }
+
+
+
 
     private int leftChild(int index) {
         return 2 * index + 1;
@@ -92,23 +69,23 @@ public class SegmentTree<E> {
     }
 
 
-    public E query(int queryL, int queryR){
+    public E query(int queryL, int queryR) {
 
-        if(queryL < 0 || queryL >= data.length ||
-                queryR < 0 || queryR >= data.length || queryL > queryR){
+        if (queryL < 0 || queryL >= data.length ||
+                queryR < 0 || queryR >= data.length || queryL > queryR) {
             throw new IllegalArgumentException("Index is illegal");
         }
 
-        return query(0,0,data.length,queryL,queryR);
+        return query(0, 0, data.length, queryL, queryR);
     }
 
     //在以treeIndex为根的线段树中[l...r]的范围里， 搜索区间[queryL...queryR]的值
-    private E query(int treeIndex, int l, int r, int queryL, int queryR){
+    private E query(int treeIndex, int l, int r, int queryL, int queryR) {
 
-        if(l == queryL && r == queryR){
+        if (l == queryL && r == queryR) {
             return tree[treeIndex];
         }
         return tree[l];
->>>>>>> d720cd23f2aa9c59d6aa55f29c47d4d04aeb58b1
+
     }
 }
