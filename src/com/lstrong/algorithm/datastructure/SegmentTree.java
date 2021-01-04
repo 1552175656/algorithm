@@ -1,9 +1,12 @@
 package com.lstrong.algorithm.datastructure;
 
 /**
- * <<<<<<< HEAD
+ * 一些声明信息
+ * Description: <br/>
+ * date: 2020/12/29 22:14<br/>
  *
- * @author Administrator
+ * @author asus<br />
+ * @since JDK 1.8
  */
 public class SegmentTree<E> {
 
@@ -13,13 +16,11 @@ public class SegmentTree<E> {
 
     public SegmentTree(E[] arr, Merger<E> merger) {
         this.merger = merger;
-
         data = (E[]) new Object[arr.length];
 
         System.arraycopy(arr, 0, data, 0, arr.length);
 
         tree = (E[]) new Object[4 * arr.length];
-
 
         buildSegmentTree(0, 0, data.length - 1);
     }
@@ -49,16 +50,10 @@ public class SegmentTree<E> {
     public E get(int index) {
 
         if (index < 0 || index >= data.length) {
-            throw new IllegalArgumentException("Index is illegal");
+            throw new IllegalArgumentException("Index is illegal.");
         }
-
         return data[index];
-
-
     }
-
-
-
 
     private int leftChild(int index) {
         return 2 * index + 1;
@@ -85,7 +80,49 @@ public class SegmentTree<E> {
         if (l == queryL && r == queryR) {
             return tree[treeIndex];
         }
-        return tree[l];
 
+        int mid = l + (r - l) / 2;
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+
+        if (queryL >= mid + 1) {
+            return query(rightTreeIndex, mid + 1, r, queryL, queryR);
+        } else if (queryR <= mid) {
+            return query(leftTreeIndex, l, mid, queryL, queryR);
+        }
+
+        E leftResult = query(leftTreeIndex, l, mid, queryL, mid);
+        E rightResult = query(rightTreeIndex, mid + 1, r, mid + 1, queryR);
+
+        return merger.merge(leftResult, rightResult);
+    }
+
+    public void set(int index, E e) {
+        if (index < 0 || index >= data.length) {
+            throw new IllegalArgumentException("Index is illegal.");
+        }
+
+        data[index] = e;
+        set(0, 0, data.length - 1, index, e);
+    }
+
+    //以treeIndex为根节点，更新[l ,r]区间上索引为index的元素值为e
+    private void set(int treeIndex, int l, int r, int index, E e) {
+
+        if (l == r) {
+            tree[treeIndex] = e;
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+        if (index >= mid + 1) {
+            set(rightTreeIndex, mid + 1, r, index, e);
+        } else {
+            set(leftTreeIndex, l, mid, index, e);
+        }
+
+        tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);
     }
 }
