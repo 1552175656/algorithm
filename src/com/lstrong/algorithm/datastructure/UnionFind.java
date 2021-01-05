@@ -1,7 +1,12 @@
 package com.lstrong.algorithm.datastructure;
 
 /**
- * @author Administrator
+ * 一些声明信息
+ * Description: <br/>
+ * date: 2021/1/4 20:36<br/>
+ *
+ * @author asus<br />
+ * @since JDK 1.8
  */
 public interface UnionFind {
 
@@ -10,4 +15,6 @@ public interface UnionFind {
     boolean isConnected(int p, int q);
 
     void unionElements(int p, int q);
+
+
 }
