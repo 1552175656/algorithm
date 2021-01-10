@@ -1,5 +1,7 @@
 package com.lstrong.algorithm.datastructure;
 
+import java.util.Stack;
+
 /**
  * @author Administrator
  */
@@ -51,6 +53,55 @@ public class AVLTree<K extends Comparable<K>, V> {
         return getHeight(node.left) - getHeight(node.right);
     }
 
+    public boolean isBST() {
+        return isBST(root);
+    }
+
+    private boolean isBST(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        Stack<Node> nodeStack = new Stack<>();
+        Node pre = null;
+        Node cur = node;
+        while (cur != null || !nodeStack.isEmpty()) {
+            while (cur != null) {
+                nodeStack.push(cur);
+                cur = cur.left;
+            }
+
+            cur = nodeStack.pop();
+            if (pre != null && pre.key.compareTo(cur.key) > 0) {
+                return false;
+            }
+            pre = cur;
+            cur = cur.right;
+        }
+
+        return true;
+    }
+
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node) {
+
+        if (node == null) {
+            return true;
+        }
+
+        int balanceFactor = getBalanceFactor(node);
+
+        if (Math.abs(balanceFactor) > 1) {
+            return false;
+        }
+
+        return isBalanced(node.left) && isBalanced(node.right);
+
+    }
+
 
     public void add(K key, V value) {
         root = add(root, key, value);
@@ -74,11 +125,55 @@ public class AVLTree<K extends Comparable<K>, V> {
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
 
         int balanceFactor = getBalanceFactor(node);
-        if(Math.abs(balanceFactor) > 1){
 
+
+        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
+            return rightRotate(node);
+        }
+
+        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        if(balanceFactor > 1 && getBalanceFactor(node.left) < 0){
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if(balanceFactor < -1 && getBalanceFactor(node.right) > 0){
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
 
         return node;
+    }
+
+    private Node rightRotate(Node y) {
+
+        Node x = y.left;
+        Node T3 = x.right;
+
+        x.right = y;
+        y.left = T3;
+
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
+    }
+
+    private Node leftRotate(Node y) {
+
+        Node x = y.right;
+        Node T2 = x.left;
+
+        x.left = y;
+        y.right = T2;
+
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
     }
 
     private K successor(Node root) {
@@ -123,6 +218,7 @@ public class AVLTree<K extends Comparable<K>, V> {
             node.right = remove(node.right, key);
         } else {
             if (node.left == null && node.right == null) {
+                size--;
                 return null;
             } else if (node.right != null) {
                 node.key = successor(node);
@@ -131,6 +227,29 @@ public class AVLTree<K extends Comparable<K>, V> {
                 node.key = predecessor(node);
                 node.left = remove(node.left, node.key);
             }
+        }
+
+        node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+
+        int balanceFactor = getBalanceFactor(node);
+
+
+        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
+            return rightRotate(node);
+        }
+
+        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        if(balanceFactor > 1 && getBalanceFactor(node.left) < 0){
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if(balanceFactor < -1 && getBalanceFactor(node.right) > 0){
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
 
         return node;
@@ -182,7 +301,6 @@ public class AVLTree<K extends Comparable<K>, V> {
     public int getSize() {
         return size;
     }
-
 
 
 }
