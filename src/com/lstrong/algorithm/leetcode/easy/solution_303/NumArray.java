@@ -1,6 +1,8 @@
 package com.lstrong.algorithm.leetcode.easy.solution_303;
 
 
+import java.util.Arrays;
+
 /**
  * 一些声明信息
  * Description: <br/>
@@ -9,12 +11,11 @@ package com.lstrong.algorithm.leetcode.easy.solution_303;
  * @author asus<br />
  * @since JDK 1.8
  */
-public class NumArray {
+class NumArray1 {
 
     private interface Merger<E> {
         E merge(E a, E b);
     }
-
 
 
     private class SegmentTree<E> {
@@ -110,7 +111,7 @@ public class NumArray {
 
     private SegmentTree<Integer> segmentTree;
 
-    public NumArray(int[] nums) {
+    public NumArray1(int[] nums) {
         if (nums.length > 0) {
             Integer[] integers = new Integer[nums.length];
             for (int i = 0; i < nums.length; i++) {
@@ -131,12 +132,61 @@ public class NumArray {
     }
 
 
+    class NumArray2 {
 
-    public static void main(String[] args) {
-        int[] nums = new int[]{-2, 0, 3, -5, 2, -1};
-        NumArray numArray = new NumArray(nums);
-        System.out.println(numArray.sumRange(0, 2));
-        //System.out.println(numArray.sumRange(2, 5));
-        //System.out.println(numArray.sumRange(0, 5));
+        private int[] data, blocks;
+        private int N;
+        private int B;
+        private int Bn;
+
+        public NumArray2(int[] nums) {
+            N = nums.length;
+            if (N == 0) {
+                return;
+            }
+
+            B = (int) Math.sqrt(N);
+            Bn = N / B + (N % B > 0 ? 1 : 0);
+
+            data = Arrays.copyOf(nums, N);
+            blocks = new int[Bn];
+
+            for (int i = 0; i < N; i++) {
+                blocks[i / B] += nums[i];
+            }
+        }
+
+        public int sumRange(int x, int y) {
+
+            if (x < 0 || x >= N || y < 0 || y >= N || x > y) {
+                return 0;
+            }
+
+            int bstart = x / B, bend = y / B;
+
+            int res = 0;
+            if (bstart == bend) {
+                for (int i = x; i <= y; i++) {
+                    res += data[i];
+                }
+                return res;
+            }
+
+            for (int i = x; i < (bstart + 1) * B; i++) {
+                res += data[i];
+            }
+
+            for (int i = bstart + 1; i < bend; i++) {
+                res += blocks[i];
+            }
+
+            for (int i = bend * B; i <= y; i++) {
+                res += data[i];
+            }
+
+            return res;
+        }
+
+
     }
 }
