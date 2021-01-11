@@ -67,5 +67,12 @@ public class HashTable<K, V> {
         map.put(key, value);
     }
 
+    public boolean contains(K key){
+        return hashTable[hash(key)].containsKey(key);
+    }
+
+    public V get(K key){
+        return hashTable[hash(key)].get(key);
+    }
 
 }
