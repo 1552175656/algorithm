@@ -10,7 +10,28 @@ package com.lstrong.algorithm.leetcode.medium.solution_215;
  */
 public class Solution {
 
-    public int findKthLargest(int[] nums, int k) {
+
+
+    public int findKthLargest(int[] nums, int k) throws Exception {
+
+        int l = 0, r = nums.length - 1;
+
+        while (l <= r){
+
+            int p = partition(nums, l , r);
+            if(p == k){
+                return nums[p];
+            }else if(p > k){
+                r = p - 1;
+            }else {
+                l = p + 1;
+            }
+        }
+
+        throw new Exception("No Solution");
+    }
+
+    public int findKthLargestR(int[] nums, int k) {
         return select(nums, 0, nums.length - 1, nums.length - k);
     }
 
