@@ -1,5 +1,6 @@
 package com.lstrong.algorithm.leetcode.hard.solution_126;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,10 +12,11 @@ import java.util.List;
  * @since JDK 1.8
  */
 public class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        int min = 0;
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> res = new ArrayList<>();
 
 
-        return min;
+
+        return res;
     }
 }
