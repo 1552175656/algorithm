@@ -1,5 +1,8 @@
 package com.lstrong.algorithm.leetcode.medium.solution_222;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 一些声明信息
  * Description: <br/>
@@ -10,11 +13,44 @@ package com.lstrong.algorithm.leetcode.medium.solution_222;
  */
 public class Solution {
 
+    //DFS
     public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
 
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
 
+        return left + right + 1;
+    }
 
-        return 0;
+    //BFS
+    public int countNodes1(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int count = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            count += size;
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+
+        return count;
     }
 
 
