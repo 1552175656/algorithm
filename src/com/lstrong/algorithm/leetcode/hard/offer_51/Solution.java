@@ -17,38 +17,50 @@ public class Solution {
 
 
     List<List<String>> res = new ArrayList<>();
+    boolean[] col, dia1, dia2;
+
     public List<List<String>> solveNQueens(int n) {
         char[][] board = new char[n][n];
-        for (char[] i : board){
-            Arrays.fill(i,'.');
+        col = new boolean[n];
+        dia1 = new boolean[2 * n - 1];
+        dia2 = new boolean[2 * n - 1];
+        for (char[] i : board) {
+            Arrays.fill(i, '.');
         }
-        backtrack(board,0);
+        backtrack(board, 0);
         return res;
     }
+
     // 路径：board 中小于 row 的那些行都已经成功放置了皇后
     // 选择列表：第 row 行的所有列都是放置皇后的选择
     // 结束条件：row 超过 board 的最后一行
-    void backtrack(char[][] board, int row){
-        if (row == board.length){
+    void backtrack(char[][] board, int row) {
+        if (row == board.length) {
             res.add(array2List(board));
             return;
         }
 
-        for (int j = 0;j<board.length;j++){
-            if (!check(board,row,j)){
-                continue;
+        for (int j = 0; j < board.length; j++) {
+            if(!col[j] && !dia1[row + j] && ! dia2[row - j + board.length - 1]){
+                board[row][j] = 'Q';
+                col[j] = true;
+                dia1[row + j] = true;
+                dia2[row - j + board.length - 1] = true;
+                backtrack(board, row + 1);
+                dia2[row - j + board.length - 1] = false;
+                dia1[row + j] = false;
+                col[j] = false;
+                board[row][j] = '.';
             }
-            board[row][j] = 'Q';
-            backtrack(board,row+1);
-            board[row][j] = '.';
+
         }
     }
 
-    List<String> array2List(char[][] board){
+    List<String> array2List(char[][] board) {
         List<String> res = new LinkedList<>();
-        for (char[] i : board){
+        for (char[] i : board) {
             StringBuilder sb = new StringBuilder();
-            for (char j : i){
+            for (char j : i) {
                 sb.append(j);
             }
             res.add(sb.toString());
@@ -56,7 +68,7 @@ public class Solution {
         return res;
     }
 
-    boolean check(char[][] board,int row,int col){
+    boolean check(char[][] board, int row, int col) {
         int n = board.length;
         // 检查列是否有皇后互相冲突
         for (char[] chars : board) {
